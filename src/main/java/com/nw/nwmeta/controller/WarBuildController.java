@@ -20,7 +20,7 @@ public class WarBuildController {
         warBuildService.inserir(warBuild);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable Integer id) {
         warBuildService.excluir(id);
     }
@@ -30,7 +30,7 @@ public class WarBuildController {
         return warBuildService.findAll();
     }
 
-    @GetMapping("/find-by-id")
+    @GetMapping("/find-by-id/{id}")
     public WarBuild findById(@PathVariable Integer id) {
         return warBuildService.findById(id);
     }

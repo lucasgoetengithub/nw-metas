@@ -28,7 +28,7 @@ public class PontoAtributo {
 
     private String descricao;
 
-    public PontoAtributo toEntity(PontoAtributoDTO dto) {
+    public static PontoAtributo toEntity(PontoAtributoDTO dto) {
         return PontoAtributo.builder()
                 .id(dto.getId())
                 .atributos(dto.getAtributos())

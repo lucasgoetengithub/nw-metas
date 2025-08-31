@@ -1,12 +1,7 @@
 package com.nw.nwmeta.service;
 
-import com.nw.nwmeta.model.dto.warbuild.ComboEssencialDTO;
-import com.nw.nwmeta.model.dto.warbuild.DicaGameplayDTO;
-import com.nw.nwmeta.model.warbuild.ComboEssencial;
-import com.nw.nwmeta.model.warbuild.DicaGameplay;
-import com.nw.nwmeta.model.warbuild.WarBuild;
-import com.nw.nwmeta.model.dto.warbuild.WarBuildDTO;
-import com.nw.nwmeta.model.warbuild.mapper.WarBuildMapper;
+import com.nw.nwmeta.model.dto.warbuild.*;
+import com.nw.nwmeta.model.warbuild.*;
 import com.nw.nwmeta.repository.warbuild.WarBuildRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +16,63 @@ public class WarBuildService {
     @Autowired
     WarBuildRepository warBuildRepository;
 
-    private WarBuildMapper mapper;
-
     public void inserir(WarBuildDTO warBuildDTO) {
         List<ComboEssencial> comboEssencials = extrairComboEssencial(warBuildDTO.getComboEssencials());
         List<DicaGameplay> dicaGameplays = extrairDicaGameplay(warBuildDTO.getDicaGameplays());
+        List<Equipamento> equipamentos = extrairEquipamentos(warBuildDTO.getEquipamentos());
+        List<Observacao> observacaos = extrairObservacoes(warBuildDTO.getObservacao());
+        List<PontoAtributo> pontoAtributos = extrairAtributos(warBuildDTO.getAtributos());
 
-        System.out.println(warBuildDTO);
+        WarBuild warBuild = WarBuild.toEntity(warBuildDTO);
+        warBuild.setComboEssencials(comboEssencials);
+        warBuild.setDicaGameplays(dicaGameplays);
+        warBuild.setEquipamentos(equipamentos);
+        warBuild.setObservacao(observacaos);
+        warBuild.setAtributos(pontoAtributos);
+
+        warBuildRepository.save(warBuild);
+    }
+
+    public List<WarBuild> findAll() {
+        List<WarBuild> warBuilds = warBuildRepository.findAll();
+        return warBuilds;
+    }
+
+    public WarBuild findById(Integer id) {
+        Optional<WarBuild> warBuildsOptional = warBuildRepository.findById(id);
+        return warBuildsOptional.orElse(new WarBuild());
+    }
+
+    public void excluir(Integer id) {
+        Optional<WarBuild> warBuildsOptional = warBuildRepository.findById(id);
+        warBuildsOptional.ifPresent(warBuild -> warBuildRepository.delete(warBuild));
+    }
+
+    private List<PontoAtributo> extrairAtributos(List<PontoAtributoDTO> list) {
+        List<PontoAtributo> atributos = new ArrayList<>();
+        list.forEach(dto -> {
+            PontoAtributo pontoAtributo = PontoAtributo.toEntity(dto);
+            atributos.add(pontoAtributo);
+        });
+        return atributos;
+    }
+
+    private List<Observacao> extrairObservacoes(List<ObservacaoDTO> list) {
+        List<Observacao> observacaos = new ArrayList<>();
+        list.forEach(dto -> {
+            Observacao observacao = Observacao.toEntity(dto);
+            observacaos.add(observacao);
+        });
+        return observacaos;
+    }
+
+    private List<Equipamento> extrairEquipamentos(List<EquipamentoDTO> list) {
+        List<Equipamento> equipamentos = new ArrayList<>();
+        list.forEach(dto -> {
+            Equipamento equipamento = Equipamento.toEntity(dto);
+            equipamentos.add(equipamento);
+        });
+        return equipamentos;
     }
 
     private List<DicaGameplay> extrairDicaGameplay(List<DicaGameplayDTO> list) {
@@ -46,20 +91,5 @@ public class WarBuildService {
             comboEssencials.add(comboEssencial);
         });
         return comboEssencials;
-    }
-
-    public List<WarBuild> findAll() {
-        List<WarBuild> warBuilds = warBuildRepository.findAll();
-        return warBuilds;
-    }
-
-    public WarBuild findById(Integer id) {
-        Optional<WarBuild> warBuildsOptional = warBuildRepository.findById(id);
-        return warBuildsOptional.orElse(new WarBuild());
-    }
-
-    public void excluir(Integer id) {
-        Optional<WarBuild> warBuildsOptional = warBuildRepository.findById(id);
-        warBuildsOptional.ifPresent(warBuild -> warBuildRepository.delete(warBuild));
     }
 }

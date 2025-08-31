@@ -24,7 +24,7 @@ public class Observacao {
 
     private String descricao;
 
-    public Observacao toEntity(ObservacaoDTO dto) {
+    public static Observacao toEntity(ObservacaoDTO dto) {
         return Observacao.builder()
                 .id(dto.getId())
                 .tipoObservacao(dto.getTipoObservacao())

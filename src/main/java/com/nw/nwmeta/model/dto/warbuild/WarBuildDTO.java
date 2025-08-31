@@ -3,7 +3,6 @@ package com.nw.nwmeta.model.dto.warbuild;
 import com.nw.nwmeta.model.constants.Armas;
 import com.nw.nwmeta.model.constants.Categoria;
 import com.nw.nwmeta.model.constants.Dificuldade;
-import com.nw.nwmeta.model.warbuild.PontoAtributo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +31,6 @@ public class WarBuildDTO {
     private List<DicaGameplayDTO> dicaGameplays;
     private List<ComboEssencialDTO> comboEssencials;
     private List<ObservacaoDTO> observacao;
-    private List<PontoAtributo> atributos;
+    private List<PontoAtributoDTO> atributos;
 
 }

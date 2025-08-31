@@ -67,7 +67,7 @@ public class WarBuild {
     private List<PontoAtributo> atributos;
 
 
-    public WarBuild toEntity(WarBuildDTO dto) {
+    public static WarBuild toEntity(WarBuildDTO dto) {
         return WarBuild.builder()
                 .id(dto.getId())
                 .criador(dto.getCriador())
